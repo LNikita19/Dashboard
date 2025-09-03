@@ -1,6 +1,7 @@
 const NextFederationPlugin = require("@module-federation/nextjs-mf");
 
-module.exports = {
+/** @type {import('next').NextConfig} */
+const nextConfig = {
   webpack(config: any, option: any) {
     config.plugins.push(
       new NextFederationPlugin({
@@ -17,7 +18,9 @@ module.exports = {
     );
     return config;
   },
-
+  experimental: {
+    outputFileTracingRoot: __dirname, // 👈 fixes multiple lockfiles warning
+  },
   generateBuildId: async () => {
     return "build-id";
   },
@@ -25,3 +28,4 @@ module.exports = {
   staticPageGenerationTimeout: 300,
   output: "standalone",
 };
+module.exports = nextConfig;
